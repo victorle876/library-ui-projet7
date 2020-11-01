@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">-->
+<head>
+    <title>Homepage</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div th:replace="fragments/layout :: navbar"></div>
+<div class="container mt-5">
+    <h3 class="text-center mb-3"> Liste des exemplaires</h3>
+    <div class="table-responsive-lg">
+        <table class="table table-bordered table-striped text-center">
+            <thead>
+            <th>Collection</th>
+            <th>Editeur</th>
+            <th>Description</th>
+            <th>ISBN</th>
+            <th>Detail</th>
+            <th>Editer</th>
+            </thead>
+            <tbody>
+            <tr th:each="exemplaire, rowStat: ${exemplaires}"
+                th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
+                <!--                        <td th:text="${utilisateur.id}"/>-->
+                <td th:text="${exemplaire.collection}"/>
+                <td th:text="${exemplaire.editeur}"/>
+                <td th:text="${exemplaire.description}"/>
+                <td th:text="${exemplaire.isbn}"/>
+                <td><a th:href="@{/api/exemplaire/details?id={id}(id=${exemplaire.id})}">Détails</a></td>
+                <td><a th:href="@{/api/exemplaire/edition?id={id}(id=${exemplaire.id})}">Editer</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <a class="btn btn-primary" role="button" th:href="@{/api/utilisateur/add}">Ajouter</a> </br>
+<!--        <a class="btn btn-primary" role="button" th:href="@{/admin/home}">Retour</a>-->
+    </div>
+</div>
+</div>
+</body>
+</html>
