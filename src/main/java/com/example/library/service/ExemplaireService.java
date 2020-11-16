@@ -29,7 +29,8 @@ public class ExemplaireService {
      * * @return la liste des topos
      */
     public List<ExemplaireDTO> getAllExemplaires() throws IOException,InterruptedException {
-        List<ExemplaireDTO> exemplaires = httpService.sendGetListRequest("http://localhost8080/api/exemplaire/list", ExemplaireDTO.class);
+        List<ExemplaireDTO> exemplaires = httpService.sendGetListRequest("http://localhost:8090/api/exemplaire/list", ExemplaireDTO.class);
+  //      System.out.println(exemplaires);
         return exemplaires;
 
     }

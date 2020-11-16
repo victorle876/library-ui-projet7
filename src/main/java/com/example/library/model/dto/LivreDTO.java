@@ -1,5 +1,7 @@
 package com.example.library.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -19,6 +21,7 @@ public class LivreDTO {
 
     private Date updatedAt;
 
+    @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
     private List<ExemplaireDTO> exemplaires;
 
 }

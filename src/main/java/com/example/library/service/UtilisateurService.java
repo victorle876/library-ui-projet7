@@ -22,7 +22,8 @@ public class UtilisateurService {
      * * @return la liste des utilisateurs
      */
     public List<UtilisateurDTO> getAllUsers() throws IOException,InterruptedException {
-        List<UtilisateurDTO> utilisateurs = httpService.sendGetListRequest("http://localhost8080/api/utilisateur/list", UtilisateurDTO.class);
+        List<UtilisateurDTO> utilisateurs = httpService.sendGetListRequest("http://localhost:8090/api/utilisateur/list", UtilisateurDTO.class);
+        System.out.println(utilisateurs);
         return utilisateurs;
 
     }

@@ -24,7 +24,8 @@ public class LivreService {
      * * @return la liste des utilisateurs
      */
     public List<LivreDTO> getAllLivres() throws IOException,InterruptedException {
-        List<LivreDTO> livres = httpService.sendGetListRequest("http://localhost8080/api/livre/list", LivreDTO.class);
+        List<LivreDTO> livres = httpService.sendGetListRequest("http://localhost:8090/api/livre/list", LivreDTO.class);
+  //      System.out.println(livres);
         return livres;
 
     }

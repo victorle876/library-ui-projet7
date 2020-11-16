@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/pret")
+@RequestMapping("/pret")
 public class PretController {
 
     @Autowired
@@ -27,10 +27,4 @@ public class PretController {
         return "listPrets";
     }
 
-    private Pret convertToEntity(PretDTO pretDTO) throws ParseException {
-        ModelMapper mapper = new ModelMapper();
-        Pret pret = mapper.map(pretDTO, Pret.class);
-
-        return pret;
-    }
 }

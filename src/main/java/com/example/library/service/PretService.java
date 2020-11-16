@@ -20,7 +20,8 @@ public class PretService {
      * * @return la liste des utilisateurs
      */
     public List<PretDTO> getAllPrets() throws IOException,InterruptedException {
-        List<PretDTO> prets = httpService.sendGetListRequest("http://localhost8080/api/pret/list", PretDTO.class);
+        List<PretDTO> prets = httpService.sendGetListRequest("http://localhost:8090/api/pret/list", PretDTO.class);
+  //      System.out.println(prets);
         return prets;
 
     }
