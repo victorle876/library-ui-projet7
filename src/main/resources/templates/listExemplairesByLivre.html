@@ -18,34 +18,34 @@
 <body>
 <div th:replace="fragments/layout :: navbar"></div>
 <div class="container mt-5">
-    <h3 class="text-center mb-3"> Liste des livres</h3>
+    <h3 class="text-center mb-3"> Liste des exemplaires</h3>
     <div class="table-responsive-lg">
         <table class="table table-bordered table-striped text-center">
             <thead>
-            <th>Titre</th>
-            <th>Auteur</th>
-            <th>Categorie</th>
-            <th>Liste</th>
+            <th>Collection</th>
+            <th>Editeur</th>
+            <th>Description</th>
+            <th>ISBN</th>
             <th>Detail</th>
             <th>Editer</th>
             </thead>
             <tbody>
-            <tr th:each="livre, rowStat: ${livres}"
+            <tr th:each="exemplaire, rowStat: ${exemplaires}"
                 th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
                 <!--                        <td th:text="${utilisateur.id}"/>-->
-                <td th:text="${livre.titre}"/>
-                <td th:text="${livre.auteur}"/>
-                <td th:text="${livre.categorie}"/>
-                <td><a th:href="@{/livre/listExemplaireByLivre/{id}(id=${livre.id})}">Liste</a></td>
-                <td><a th:href="@{/livre/details/{id}(id=${livre.id})}">Détails</a></td>
-                <td><a th:href="@{/livre/editionLivre/{id}(id=${livre.id})}">Editer</a></td>
+                <td th:text="${exemplaire.collection}"/>
+                <td th:text="${exemplaire.editeur}"/>
+                <td th:text="${exemplaire.description}"/>
+                <td th:text="${exemplaire.isbn}"/>
+                <td><a th:href="@{/exemplaire/details/{id}(id=${exemplaire.id})}">Détails</a></td>
+                <td><a th:href="@{/exemplaire/edition/{id}(id=${exemplaire.id})}">Editer</a></td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="row">
-        <a class="btn btn-primary" role="button" th:href="@{/livre/add}">Ajouter</a> </br>
-
+        <a class="btn btn-primary" role="button" th:href="@{/api/utilisateur/add}">Ajouter</a> </br>
+<!--        <a class="btn btn-primary" role="button" th:href="@{/admin/home}">Retour</a>-->
     </div>
 </div>
 </div>

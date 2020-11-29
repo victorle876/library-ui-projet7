@@ -37,15 +37,14 @@
                 <td th:text="${exemplaire.editeur}"/>
                 <td th:text="${exemplaire.description}"/>
                 <td th:text="${exemplaire.isbn}"/>
-                <td><a th:href="@{/api/exemplaire/details?id={id}(id=${exemplaire.id})}">Détails</a></td>
-                <td><a th:href="@{/api/exemplaire/edition?id={id}(id=${exemplaire.id})}">Editer</a></td>
+                <td><a th:href="@{/exemplaire/details/{id}(id=${exemplaire.id})}">Détails</a></td>
+                <td><a th:href="@{/exemplaire/editionExemplaire/{id}(id=${exemplaire.id})}">Editer</a></td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="row">
-        <a class="btn btn-primary" role="button" th:href="@{/api/utilisateur/add}">Ajouter</a> </br>
-<!--        <a class="btn btn-primary" role="button" th:href="@{/admin/home}">Retour</a>-->
+        <a class="btn btn-primary" role="button" th:href="@{/exemplaire/add}">Ajouter</a> </br>
     </div>
 </div>
 </div>

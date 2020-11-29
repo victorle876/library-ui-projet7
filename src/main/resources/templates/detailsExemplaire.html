@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Homepage</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="fragments/layout :: navbar"></div>
+<div class="container mt-5">
+    <h3 class="text-center mb-3">Detail exemplaire</h3>
+        <form>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="exampleInputCollection">Collection</label>
+                <div class="col-sm-10">
+                    <input aria-describedby="WarningCollection" class="form-control" disabled
+                           id="exampleInputCollection"
+                           th:value="${exemplaire.collection}" type="text">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="exampleInputEditeur">Editeur</label>
+                <input aria-describedby="WarningEditeur" class="form-control" disabled id="exampleInputEditeur"
+                       th:value="${exemplaire.editeur}" type="text">
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="exampleInputDescription">Description</label>
+                <div class="col-sm-10">
+                    <input aria-describedby="WarningDescription" class="form-control" disabled
+                           id="exampleInputDescription"
+                           th:value="${exemplaire.description}" type="text">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="exampleInputISBN">ISBN</label>
+                <div class="col-sm-10">
+                    <input aria-describedby="WarningDescription" class="form-control" disabled
+                           id="exampleInputISBN"
+                           th:value="${exemplaire.isbn}" type="text">
+                </div>
+            </div>
+
+            <div class="row">
+                <a class="btn btn-info" role="button" th:href="@{/exemplaire/list}">Retour</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

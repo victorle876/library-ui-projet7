@@ -32,20 +32,18 @@
             <tbody>
             <tr th:each="utilisateur, rowStat: ${utilisateurs}"
                 th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
-                <!--                        <td th:text="${utilisateur.id}"/>-->
                 <td th:text="${utilisateur.username}"/>
                 <td th:text="${utilisateur.prenom}"/>
                 <td th:text="${utilisateur.age}"/>
                 <td th:text="${utilisateur.mail}"/>
-                <td><a th:href="@{/detailsUser?id={id}(id=${utilisateur.id})}">Détails</a></td>
-                <td><a th:href="@{/editionUser?id={id}(id=${utilisateur.id})}">Editer</a></td>
+                <td><a th:href="@{/utilisateur/detailsUser?id={id}(id=${utilisateur.id})}">Détails</a></td>
+                <td><a th:href="@{/utilisateur/editionUser?id={id}(id=${utilisateur.id})}">Editer</a></td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="row">
-        <a class="btn btn-primary" role="button" th:href="@{/api/utilisateur/add}">Ajouter</a> </br>
-<!--        <a class="btn btn-primary" role="button" th:href="@{/admin/home}">Retour</a>-->
+        <a class="btn btn-primary" role="button" th:href="@{/utilisateur/add}">Ajouter</a> </br>
     </div>
 </div>
 </div>
