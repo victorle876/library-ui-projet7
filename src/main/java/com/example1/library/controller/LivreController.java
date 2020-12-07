@@ -118,7 +118,8 @@ public class LivreController {
         if (errors.hasErrors()) {
             return "editionlivre";
         } else {
-            this.livreService.saveLivre(livre);
+            LivreDTO livreId = this.livreService.getLivreById(id);
+            this.livreService.updateLivre(livreId,livre.getId());
             model.addAttribute("livres", this.livreService.getAllLivres());
             return "redirect:/livre/list";
         }

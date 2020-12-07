@@ -36,4 +36,5 @@ public class HttpService {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(response.body(), objectMapper.getTypeFactory().constructCollectionType(List.class, responseType));
     }
+
 }

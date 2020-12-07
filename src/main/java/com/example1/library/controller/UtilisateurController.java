@@ -61,7 +61,6 @@ public class UtilisateurController {
         if (result.hasErrors()) {
             return "addUser";
         } else {
-        //    System.out.println(utilisateur);
             System.out.println(utilisateur.getUsername());
             this.utilisateurService.saveUser(utilisateur);
             model.addAttribute("utilisateurs", this.utilisateurService.getAllUsers());
@@ -112,15 +111,14 @@ public class UtilisateurController {
             return "editionUser";
         } else {
             UtilisateurDTO utilisateurId = this.utilisateurService.getUserById(id);
-            utilisateurId.setUsername(utilisateur.getUsername());
+  /*          utilisateurId.setUsername(utilisateur.getUsername());
             System.out.println(utilisateur.getUsername());
             utilisateurId.setPrenom(utilisateur.getPrenom());
             utilisateurId.setMail(utilisateur.getMail());
             utilisateurId.setStatut(utilisateur.getStatut());
             utilisateurId.setAge(utilisateur.getAge());
-            System.out.println(utilisateurId);
+            System.out.println(utilisateurId);*/
             this.utilisateurService.updateUser(utilisateurId,utilisateur.getId());
-            System.out.println(this.utilisateurService.updateUser(utilisateur,utilisateur.getId()));
             model.addAttribute("utilisateurs", this.utilisateurService.getAllUsers());
             return "redirect:/utilisateur/list";
         }

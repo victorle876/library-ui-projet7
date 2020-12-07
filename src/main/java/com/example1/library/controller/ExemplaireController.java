@@ -96,12 +96,12 @@ public class ExemplaireController {
      * @return la page "editionUser"
      */
     @RequestMapping(value = "/editionExemplaire/{id}", method = RequestMethod.POST)
-    public String editionlivre(@PathVariable(value = "id") long id, @ModelAttribute ExemplaireDTO exemplaire, BindingResult errors, Model model) throws IOException,InterruptedException
+    public String editionExemplaire(@PathVariable(value = "id") long id, @ModelAttribute ExemplaireDTO exemplaire, BindingResult errors, Model model) throws IOException,InterruptedException
     {
         if (errors.hasErrors()) {
             return "editionExemplaire";
         } else {
-            this.exemplaireService.saveExemplaire(exemplaire);
+            this.exemplaireService.updateExemplaire(exemplaire,id);
             model.addAttribute("exemplaires", this.exemplaireService.getAllExemplaires());
             return "redirect:/exemplaire/list";
         }
