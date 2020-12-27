@@ -17,35 +17,36 @@
 <div th:replace="fragments/layout :: navbar"></div>
 <div class="container mt-5">
     <h3 class="text-center mb-3">Modifier detail livre</h3>
-        <form action="#" method="post" th:action="@{/editionLivre/{id}(id=${id})}"
-              th:object="${livre}">
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="exampleInputAuteur">Auteur</label>
-                <div class="col-sm-10">
-                    <input class="form-control" id="exampleInputAuteur" th:field="*{auteur}" type="text">
-                    <small class="form-text text-muted" id="WarningAuteur" th:errors="*{auteur}"
-                           th:if="${#fields.hasErrors('auteur')}"></small>
-                </div>
+    <form action="#" method="post" th:action="@{/livre/editionLivre/{id}(id=${id})}"
+          th:object="${livre}">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="exampleInputTitre">Titre</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="exampleInputTitre" th:field="*{titre}" type="text">
             </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="exampleInputTitre">Titre</label>
-                <div class="col-sm-10">
-                    <input class="form-control" id="exampleInputTitre" th:field="*{titre}" type="text">
-                </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="exampleInputAuteur">Auteur</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="exampleInputAuteur" th:field="*{auteur}" type="text">
+                <small class="form-text text-muted" id="WarningAuteur" th:errors="*{auteur}"
+                       th:if="${#fields.hasErrors('auteur')}"></small>
             </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="exampleInputCategorie">Categorie</label>
-                <div class="col-sm-10">
-                    <input class="form-control" id="exampleInputCategorie" th:field="*{categorie}" type="text">
-                </div>
-            </div>
+        </div>
 
-            <div class="row">
-                <input class="btn btn-primary" th:name="action" th:value="Submit" type="submit">
-                <a class="btn btn-primary" role="button" th:href="@{/livre/list}">Retour</a>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="exampleInputCategorie">Categorie</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="exampleInputCategorie" th:field="*{categorie}" type="text">
             </div>
-        </form>
-    </div>
+        </div>
+
+        <div class="row">
+            <input class="btn btn-primary" th:name="action" th:value="Submit" type="submit">
+            <a class="btn btn-primary" role="button" th:href="@{/livre/list}">Retour</a>
+        </div>
+    </form>
+</div>
 </div>
 </body>
 </html>

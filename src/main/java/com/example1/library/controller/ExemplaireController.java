@@ -2,6 +2,7 @@ package com.example1.library.controller;
 
 import com.example1.library.model.dto.ExemplaireDTO;
 import com.example1.library.model.dto.LivreDTO;
+import com.example1.library.model.dto.PretDTO;
 import com.example1.library.service.ExemplaireService;
 import com.example1.library.service.PretService;
 import org.apache.logging.log4j.LogManager;
@@ -31,34 +32,11 @@ public class ExemplaireController {
     @GetMapping("/list")
     public String getAllExemplaires(Model model) throws IOException,InterruptedException {
         List<ExemplaireDTO> ListExemplairesDto = this.exemplaireService.getAllExemplaires();
+        System.out.println("list exemplaires :" + ListExemplairesDto);
         model.addAttribute("exemplaires", ListExemplairesDto);
         return "listExemplaires";
     }
 
-/*    *//**
-     * Méthode permet d'ajouter l'exemplaire en get
-     *
-     * @param model
-     * * @return la page "addExemplaire"
-     *//*
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String ajouterExemplaire(Model model) {
-        model.addAttribute("exemplaire", new ExemplaireDTO());
-        return "addExemplaire";
-    }
-
-    *//*
-    @RequestMapping(value = "/saveExemplaire", method = RequestMethod.POST)
-    public String save(@Valid @ModelAttribute ExemplaireDTO exemplaire, Model model, BindingResult result) throws IOException,InterruptedException
-    {
-        if (result.hasErrors()) {
-            return "addExemplaire";
-        } else {
-            this.exemplaireService.saveExemplaire(exemplaire);
-            model.addAttribute("exemplaires", this.exemplaireService.getAllExemplaires());
-            return "redirect:/exemplaire/listExemplaires";
-        }
-    }*/
 
     @GetMapping(value = "/details/{id}")
     public String detail(@PathVariable(value = "id") Long id, Model model) throws IOException,InterruptedException
@@ -101,10 +79,53 @@ public class ExemplaireController {
         if (errors.hasErrors()) {
             return "editionExemplaire";
         } else {
+            ExemplaireDTO exemplaireId = this.exemplaireService.getExemplaireById(id);
+            exemplaireId.setCollection(exemplaire.getCollection());
+            exemplaireId.setEditeur(exemplaire.getEditeur());
+            exemplaireId.setIsbn(exemplaire.getIsbn());
+            exemplaireId.setDescription(exemplaire.getDescription());
+            exemplaireId.setNombre(exemplaire.getNombre());
             this.exemplaireService.updateExemplaire(exemplaire,id);
             model.addAttribute("exemplaires", this.exemplaireService.getAllExemplaires());
             return "redirect:/exemplaire/list";
         }
     }
+
+    /**
+     * Méthode permet d'ajouter l'exemplaire en get
+     *
+     * @param model
+     * * @return la page "addExemplaire"
+     */
+    @RequestMapping(value = "/addPretDispo/{id}", method = RequestMethod.GET)
+    public String ajouterPret(Model model,@PathVariable(value = "id") Long id)
+            throws IOException,InterruptedException {
+        ExemplaireDTO exemplaireId = this.exemplaireService.getExemplaireById(id);
+        System.out.println(id);
+        System.out.println(exemplaireId);
+        model.addAttribute("id", id);
+        model.addAttribute("exemplaire", this.exemplaireService.getExemplaireById(id));
+        model.addAttribute("pret", new PretDTO());
+        return "listExemplaires";
+    }
+
+
+    @RequestMapping(value = "/savePretDispo/{id}", method = RequestMethod.POST)
+    public String savePret(@PathVariable(value = "id") Long id,Model model, PretDTO pretDispo)
+            throws IOException,InterruptedException
+    {
+            ExemplaireDTO exemplaireId = this.exemplaireService.getExemplaireById(id);
+            pretDispo.setExemplaire(exemplaireId);
+            pretDispo.setDisponible(Boolean.TRUE);
+            pretDispo.setEmprunte(Boolean.FALSE);
+            pretDispo.setProlonge(Boolean.FALSE);
+            pretDispo.setRetourne(Boolean.FALSE);
+            pretDispo.setNombreProlonge(0);
+            System.out.println(pretDispo);
+            this.pretService.savePret(pretDispo,id);
+            model.addAttribute("prets", this.pretService.getAllPrets());
+            return "redirect:/pret/listPretsDispo";
+    }
+
 
 }

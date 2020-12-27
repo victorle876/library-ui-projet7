@@ -2,7 +2,9 @@ package com.example1.library.model.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -26,10 +28,12 @@ public class Livre {
     @NotBlank
     private String categorie;
 
+    @JsonProperty("createdAt")
     @CreatedDate
     @Column(name = "createdAt")
     private Date createdAt;
 
+    @JsonProperty("updatedAt")
     @LastModifiedDate
     @Column(name = "updatedAt")
     private Date updatedAt;
@@ -37,6 +41,8 @@ public class Livre {
     //private Date dateParution;
 
     @OneToMany(mappedBy="livre")
+    @ToString.Exclude
+    @JsonManagedReference
     private List<Exemplaire> exemplaires;
 
     @PrePersist
@@ -49,7 +55,6 @@ public class Livre {
     protected void preUpdate() {
         this.updatedAt = new Date();
     }
-
 
 }
 

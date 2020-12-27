@@ -119,7 +119,10 @@ public class LivreController {
             return "editionlivre";
         } else {
             LivreDTO livreId = this.livreService.getLivreById(id);
-            this.livreService.updateLivre(livreId,livre.getId());
+            livreId.setTitre(livre.getTitre());
+            livreId.setAuteur(livre.getAuteur());
+            livreId.setCategorie(livre.getCategorie());
+            this.livreService.updateLivre(livreId,id);
             model.addAttribute("livres", this.livreService.getAllLivres());
             return "redirect:/livre/list";
         }
@@ -132,24 +135,56 @@ public class LivreController {
      * * @return la page "addExemplaire"
      */
     @RequestMapping(value = "/addExemplaire/{id}", method = RequestMethod.GET)
-    public String ajouterExemplaire(Model model, Long id) {
-        model.addAttribute("id", id);
-        model.addAttribute("Exemplaire", new ExemplaireDTO());
+    public String ajouterExemplaire(Model model,@PathVariable("id") Long id) throws IOException,InterruptedException {
+        LivreDTO livreId = this.livreService.getLivreById(id);
+    //    model.addAttribute("id", id);
+        model.addAttribute("livreId", livreId);
+        model.addAttribute("exemplaire", new ExemplaireDTO());
         return "addExemplaire";
     }
 
 
-    @RequestMapping(value = "/saveExemplaire", method = RequestMethod.POST)
-    public String saveExemplaire(@Valid @ModelAttribute ExemplaireDTO exemplaire, Model model, BindingResult result) throws IOException,InterruptedException
+    @RequestMapping(value = "/saveExemplaire/{id}", method = RequestMethod.POST)
+    public String saveExemplaire(@Valid @ModelAttribute ExemplaireDTO exemplaire, Model model, BindingResult result,@PathVariable("id") Long id) throws IOException,InterruptedException
     {
         if (result.hasErrors()) {
             return "addExemplaire";
         } else {
-            this.exemplaireService.saveExemplaire(exemplaire);
+            LivreDTO livreId = this.livreService.getLivreById(id);
+            ExemplaireDTO exemplaireAjoute = new ExemplaireDTO();
+            exemplaireAjoute.setCollection(exemplaire.getCollection());
+            exemplaireAjoute.setEditeur(exemplaire.getEditeur());
+            exemplaireAjoute.setIsbn(exemplaire.getIsbn());
+            exemplaireAjoute.setDescription(exemplaire.getDescription());
+            exemplaireAjoute.setNombre(exemplaire.getNombre());
+            System.out.println("livreId :" +livreId );
+            exemplaireAjoute.setLivre(livreId );
+            this.exemplaireService.saveExemplaire(exemplaireAjoute,id);
             model.addAttribute("exemplaires", this.exemplaireService.getAllExemplaires());
-            return "redirect:/exemplaire/listExemplaires";
+            return "redirect:/exemplaire/list";
         }
     }
+
+/*    @RequestMapping(value = "/livreList", method = RequestMethod.GET)
+    public String listLivreSearch(Model model) throws IOException, InterruptedException {
+        model.addAttribute("livre", new LivreDTO());
+        logger.info(new LivreDTO());
+        return "livreSearch";
+    }
+
+    @RequestMapping(value = "/SearchLivreList", method = RequestMethod.POST)
+    public String saveLivreSearchList(Model model, LivreDTO livreEnrecherche) throws IOException, InterruptedException {
+        String auteur = livreEnrecherche.getAuteur();
+        String titre = livreEnrecherche.getTitre();
+        String recherche = (auteur);
+        String recherche1 = titre;
+        List<LivreDTO> livreRecherche = this.livreService.findLivreByAuteurOrTitre(recherche,recherche1);
+        logger.info(this.livreService.findLivreByAuteurOrTitre(recherche,recherche1));
+        if (recherche1 != null) {
+            model.addAttribute("livresearch", this.livreService.findLivreByAuteurOrTitre(recherche,recherche1));
+        }
+        return "searchListLivre";
+    }*/
 
 
 }

@@ -17,11 +17,11 @@
 <div class="container mt-auto">
     <h3 class="text-center mb-3">Ajout exemplaires</h3>
     <!--    <div class="col-md-6">-->
-    <form action="#" method="post" th:action="@{/saveExemplaire}" th:object="${exemplaire}">
+    <form action="#" method="post" th:action="@{/livre/saveExemplaire/{id}(id=${id})}" th:object="${exemplaire}">
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="exampleInputCollection">Collection</label>
             <div class="col-sm-10">
-                <input aria-describedby="WarninCollection" class="form-control" id="exampleInputCollection" th:field="*{collection}"
+                <input aria-describedby="WarningCollection" class="form-control" id="exampleInputCollection" th:field="*{collection}"
                        type="text">
                 <small class="form-text text-muted" id="WarningCollection" th:errors="*{collection}"
                        th:if="${#fields.hasErrors('collection')}"></small>
@@ -46,18 +46,28 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="exampleInputISBN">ISBN"</label>
+            <label class="col-sm-2 col-form-label" for="exampleInputISBN">ISBN</label>
             <div class="col-sm-10">
-                <input aria-describedby="WarningDescription" class="form-control" id="exampleInputISBN" th:field="*{isbn}"
+                <input aria-describedby="WarningISBN" class="form-control" id="exampleInputISBN" th:field="*{isbn}"
                        type="text">
                 <small class="form-text text-muted" id="WarningISBN"
                        th:errors="*{isbn}" th:if="${#fields.hasErrors('isbn')}"></small>
             </div>
         </div>
 
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="exampleInputNombre">Nombre</label>
+            <div class="col-sm-10">
+                <input aria-describedby="WarningNombre" class="form-control" id="exampleInputNombre" th:field="*{nombre}"
+                       type="number">
+                <small class="form-text text-muted" id="WarningNombre"
+                       th:errors="*{nombre}" th:if="${#fields.hasErrors('nombre')}"></small>
+            </div>
+        </div>
+
         <div class="row">
             <input class="btn btn-primary" th:name="action" th:value="Submit" type="submit">
-            <a class="btn btn-info" role="button" th:href="@{/livre/listLivres}">Retour</a>
+            <a class="btn btn-info" role="button" th:href="@{/livre/list}">Retour</a>
         </div>
     </form>
 </div>

@@ -1,7 +1,8 @@
 package com.example1.library.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 import java.util.List;
@@ -16,10 +17,14 @@ public class LivreDTO {
 
     private String categorie;
 
+    @JsonProperty("createdAt")
     private Date createdAt;
 
+    @JsonProperty("updatedAt")
     private Date updatedAt;
 
+    @JsonManagedReference
+    @ToString.Exclude
     private List<ExemplaireDTO> exemplaires;
 
 }

@@ -28,24 +28,25 @@
             <th>Liste</th>
             <th>Detail</th>
             <th>Editer</th>
+            <th>Ajouter Exemplaire</th>
             </thead>
             <tbody>
             <tr th:each="livre, rowStat: ${livres}"
                 th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
-                <!--                        <td th:text="${utilisateur.id}"/>-->
                 <td th:text="${livre.titre}"/>
                 <td th:text="${livre.auteur}"/>
                 <td th:text="${livre.categorie}"/>
                 <td><a th:href="@{/livre/listExemplaireByLivre/{id}(id=${livre.id})}">Liste</a></td>
                 <td><a th:href="@{/livre/details/{id}(id=${livre.id})}">Détails</a></td>
                 <td><a th:href="@{/livre/editionLivre/{id}(id=${livre.id})}">Editer</a></td>
+                <td><a th:href="@{/livre/addExemplaire/{id}(id=${livre.id})}">Ajouter</a></td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="row">
-        <a class="btn btn-primary" role="button" th:href="@{/livre/add}">Ajouter</a> </br>
-
+        <a class="btn btn-primary" role="button" th:href="@{/livre/add}">Ajouter</a>
+        <a class="btn btn-info" role="button" th:href="@{/livre/list}">Retour</a>
     </div>
 </div>
 </div>

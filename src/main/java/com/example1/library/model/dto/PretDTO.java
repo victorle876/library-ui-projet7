@@ -16,13 +16,15 @@ public class PretDTO {
 
     private Boolean retourne;
 
+    private Boolean disponible;
+
     private Integer nombreProlonge;
 
     private Date createdAt;
 
     private Date updatedAt;
 
-    @JsonIgnore
+  //  @JsonIgnore
     private UtilisateurDTO utilisateur;
 
     private ExemplaireDTO exemplaire;

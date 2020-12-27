@@ -29,6 +29,7 @@ public class Pret {
     private Boolean prolonge;
 
     private Boolean retourne;
+    private Boolean disponible;
 
     private Integer nombreProlonge;
 

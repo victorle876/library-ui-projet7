@@ -2,14 +2,17 @@ package com.example1.library.service;
 
 import com.example1.library.model.dto.LivreDTO;
 import com.example1.library.model.dto.UtilisateurDTO;
+import com.example1.library.model.entity.Livre;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -38,6 +41,13 @@ public class LivreService {
 
     }
 
+    public List<LivreDTO> findLivreByAuteurOrTitre(String recherche,String recherche1) throws IOException,InterruptedException {
+        List<LivreDTO> livres = httpService.sendGetListRequest("http://localhost:8090/api/livre/searchLivreByAuteurOrTitre", LivreDTO.class);
+        //      System.out.println(livres);
+        return livres;
+
+    }
+
     public LivreDTO getLivreById(Long id) throws IOException,InterruptedException
     {
         LivreDTO livreId= httpService.sendGetRequest("http://localhost:8090/api/livre/detail/" + id, LivreDTO.class);
@@ -54,23 +64,50 @@ public class LivreService {
     public void updateLivre(LivreDTO livreUpdated, Long id) throws IOException,InterruptedException
     {
         String urlUpdate = "http://localhost:8090/api/livre/update/" +id;
-        this.sendPostRequest(livreUpdated,urlUpdate);
+        this.sendPutRequest(livreUpdated,urlUpdate);
     }
 
     public void sendPostRequest(LivreDTO livre, String url) throws ClientProtocolException, IOException {
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
 
-        String json = "{" + "id:"+ livre.getId() + ","+ "titre:"+ livre.getTitre() +"auteur:"
-                + livre.getAuteur() + "," + "categorie:"+ livre.getCategorie()+
-                "}";
-        StringEntity entity = new StringEntity(json);
+        JSONObject json = new JSONObject();
+        json.put("id", livre.getId());
+        json.put("titre", livre.getTitre());
+        json.put("auteur", livre.getAuteur());
+        json.put("categorie", livre.getCategorie());
+        json.toString();
+        StringEntity entity = new StringEntity(json.toString());
         httpPost.setEntity(entity);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-type", "application/json");
 
         CloseableHttpResponse response = client.execute(httpPost);
-   //     assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
+        assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
+        client.close();
+    }
+
+    public void sendPutRequest(LivreDTO livre, String url) throws ClientProtocolException, IOException {
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPut httpPut = new HttpPut(url);
+
+        JSONObject json = new JSONObject();
+        json.put("id", livre.getId());
+        json.put("titre", livre.getTitre());
+        json.put("auteur", livre.getAuteur());
+        json.put("categorie", livre.getCategorie());
+        json.toString();
+        System.out.println("json livre:" + json);
+        StringEntity entity = new StringEntity(json.toString());
+        System.out.println(entity);
+        httpPut.setEntity(entity);
+        httpPut.setHeader("Accept", "application/json");
+        httpPut.setHeader("Content-type", "application/json");
+
+        CloseableHttpResponse response = client.execute(httpPut);
+        System.out.println("response: " +response);
+        System.out.println("status code: " + response.getStatusLine().getStatusCode());
+        assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
         client.close();
     }
 

@@ -111,13 +111,13 @@ public class UtilisateurController {
             return "editionUser";
         } else {
             UtilisateurDTO utilisateurId = this.utilisateurService.getUserById(id);
-  /*          utilisateurId.setUsername(utilisateur.getUsername());
+            System.out.println(utilisateurId);
             System.out.println(utilisateur.getUsername());
+            utilisateurId.setUsername(utilisateur.getUsername());
             utilisateurId.setPrenom(utilisateur.getPrenom());
             utilisateurId.setMail(utilisateur.getMail());
-            utilisateurId.setStatut(utilisateur.getStatut());
             utilisateurId.setAge(utilisateur.getAge());
-            System.out.println(utilisateurId);*/
+            utilisateurId.setPassword(utilisateur.getPassword());
             this.utilisateurService.updateUser(utilisateurId,utilisateur.getId());
             model.addAttribute("utilisateurs", this.utilisateurService.getAllUsers());
             return "redirect:/utilisateur/list";

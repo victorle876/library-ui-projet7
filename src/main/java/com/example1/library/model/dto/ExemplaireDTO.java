@@ -1,7 +1,7 @@
 package com.example1.library.model.dto;
 
 import com.example1.library.model.entity.Pret;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import lombok.Data;
 
@@ -20,12 +20,15 @@ public class ExemplaireDTO {
 
     private String isbn;
 
+    @JsonProperty("createdAt")
     private Date createdAt;
 
+    @JsonProperty("updatedAt")
     private Date updatedAt;
 
     private Integer nombre;
 
+    @JsonBackReference
     private LivreDTO livre;
 
     private Date dateParution;

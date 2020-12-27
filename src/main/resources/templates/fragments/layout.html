@@ -30,12 +30,17 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/exemplaire/list}">Exemplaires</a>
                     </li>
-<!--                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/livre/listExemplaireByLivre/{id}}">Exemplaires</a>
-                    </li>-->
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/pret/list}">Prets</a>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Infos</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                            <a class="dropdown-item" th:href="@{/pret/list}">Prets</a>
+                            <a class="dropdown-item" th:href="@{/pret/listPretsDispo}">Prets dispo</a>
+                            <a class="dropdown-item" th:href="@{/pret/listPretEmprunteOrProlonge}">Emprunté ou Prolonge</a>
+                        </div>
                     </li>
+
                 </ul>
             </div>
         </nav>

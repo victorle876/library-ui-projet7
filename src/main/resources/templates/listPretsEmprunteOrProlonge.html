@@ -18,35 +18,51 @@
 <body>
 <div th:replace="fragments/layout :: navbar"></div>
 <div class="container mt-5">
-    <h3 class="text-center mb-3"> Liste des prets</h3>
+    <h3 class="text-center mb-3"> Liste des prets empruntés ou prolongés</h3>
     <div class="table-responsive-lg">
         <table class="table table-bordered table-striped text-center">
             <thead>
             <th>Utilisateur</th>
             <th>Exemplaire</th>
+            <th>Disponible</th>
             <th>Emprunte</th>
             <th>Retourne</th>
             <th>Prolonge</th>
             <th>Detail</th>
             </thead>
             <tbody>
-            <tr th:each="pret, rowStat: ${prets}"
+            <tr th:each="pret, rowStat: ${pretsemprunteorprolonge}"
                 th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
                 <td th:text="${pret.utilisateur}"/>
-               <td th:text="${pret.exemplaire.id}"/>
+                <td th:text="${pret.exemplaire.id}"/>
                 <td>
-                <div th:if="${pret.emprunte == true}">
-                    Emprunte
+                <div th:if="${pret.disponible == false}">
+                    Non
                 </div></td>
                 <td>
-                <div th:if="${pret.retourne == true}">
-                    Retourne
-                </div></td>
+                    <form method="post"
+                          th:action="@{/pret/savePretRetourne/{id}(id=${pret.id})}" th:object="${pret}">
+                        <th:block th:if="${pret.emprunte == true}">
+                            <button class="btn btn-primary" type="submit">Rendre</button>
+                        </th:block>
+                    </form>
+                </td>
                 <td>
-                <div th:if="${pret.prolonge == true}">
-                    Prolonge
-                </div></td>
-                <td><a th:href="@{/pret/details?id={id}(id=${pret.id})}">Détails</a></td>
+                    <form method="post"
+                          th:action="@{/pret/savePretProlonge/{id}(id=${pret.id})}" th:object="${pret}">
+                        <th:block th:if="${pret.emprunte == true}">
+                            <button class="btn btn-primary" type="submit">Prolonge</button>
+                        </th:block>
+                    </form></td>
+                <td>
+                    <form method="post"
+                          th:action="@{/pret/savePretRetourne/{id}(id=${pret.id})}" th:object="${pret}">
+                        <th:block th:if="${pret.prolonge == true}">
+                            <button class="btn btn-primary" type="submit">Rendre</button>
+                        </th:block>
+                    </form></td>
+
+                <td><a th:href="@{/api/pret/details?id={id}(id=${pret.id})}">Détails</a></td>
             </tr>
             </tbody>
         </table>

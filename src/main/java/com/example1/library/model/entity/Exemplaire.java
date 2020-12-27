@@ -1,12 +1,15 @@
 package com.example1.library.model.entity;
 
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
 
 @Entity
 @Data
@@ -53,6 +56,7 @@ public class Exemplaire {
 
     @ManyToOne
     @JoinColumn(name="livre_id", referencedColumnName = "id")
+    @JsonBackReference
     private Livre livre;
 
     private Date dateParution;

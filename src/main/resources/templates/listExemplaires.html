@@ -22,29 +22,40 @@
     <div class="table-responsive-lg">
         <table class="table table-bordered table-striped text-center">
             <thead>
+<!--            <th>Titre</th>-->
             <th>Collection</th>
             <th>Editeur</th>
             <th>Description</th>
             <th>ISBN</th>
             <th>Detail</th>
             <th>Editer</th>
+            <th>Preter</th>
             </thead>
             <tbody>
             <tr th:each="exemplaire, rowStat: ${exemplaires}"
                 th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
-                <!--                        <td th:text="${utilisateur.id}"/>-->
+<!--               <td th:text="${exemplaire.livre.titre}"/>-->
                 <td th:text="${exemplaire.collection}"/>
                 <td th:text="${exemplaire.editeur}"/>
                 <td th:text="${exemplaire.description}"/>
                 <td th:text="${exemplaire.isbn}"/>
                 <td><a th:href="@{/exemplaire/details/{id}(id=${exemplaire.id})}">Détails</a></td>
                 <td><a th:href="@{/exemplaire/editionExemplaire/{id}(id=${exemplaire.id})}">Editer</a></td>
+                <td>
+                    <form method="post"
+                          th:action="@{/exemplaire/savePretDispo/{id}(id=${exemplaire.id})}" th:object="${exemplaire}">
+                        <th:block>
+                            <button class="btn btn-primary" type="submit">Preter</button>
+                        </th:block>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="row">
-        <a class="btn btn-primary" role="button" th:href="@{/exemplaire/add}">Ajouter</a> </br>
+        <!--        <a class="btn btn-primary" role="button" th:href="@{/exemplaire/add}">Ajouter</a>-->
+        <a class="btn btn-primary" role="button" th:href="@{/exemplaire/list}">Retour</a>
     </div>
 </div>
 </div>

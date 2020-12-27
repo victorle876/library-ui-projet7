@@ -1,9 +1,11 @@
 package com.example1.library.service;
 import com.example1.library.model.dto.UtilisateurDTO;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 
@@ -12,6 +14,9 @@ import static org.junit.Assert.assertThat;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -35,6 +40,7 @@ public class UtilisateurService {
         return utilisateurs;
 
     }
+
 
     /**
      * Méthode permet de consulter l'utilisateur en fonction de l'id via ce service
@@ -60,20 +66,25 @@ public class UtilisateurService {
     {
         String urlUpdate = "http://localhost:8090/api/utilisateur/update/" +id;
         System.out.println(urlUpdate);
-        this.sendPostRequest(utilisateur1,urlUpdate);
+        System.out.println(utilisateur1);
+        this.sendPutRequest(utilisateur1,urlUpdate);
     }
 
     public void sendPostRequest(UtilisateurDTO utilisateur, String url) throws ClientProtocolException, IOException {
        CloseableHttpClient client = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
 
-        String json = "{" + "id:"+ utilisateur.getId() + ","+ "username:"+ utilisateur.getUsername() +"," + "prenom:"
-                + utilisateur.getPrenom() +","+"mail:"+ utilisateur.getMail() + ","  + "password:" + utilisateur.getPassword()+  ","+
-                "age:"+ utilisateur.getAge() + "," +
-                "statut:"+ utilisateur.getStatut() +
-                 "}";
+        JSONObject json = new JSONObject();
+        json.put("id", utilisateur.getId());
+        json.put("username", utilisateur.getUsername());
+        json.put("prenom", utilisateur.getPrenom());
+        json.put("age", utilisateur.getAge());
+        json.put("mail", utilisateur.getMail());
+        json.put("password", utilisateur.getPassword());
+        json.put("statut", utilisateur.getStatut());
+        json.toString();
         System.out.println(json);
-        StringEntity entity = new StringEntity(json);
+       StringEntity entity = new StringEntity(json.toString());
         System.out.println(entity);
         httpPost.setEntity(entity);
         httpPost.setHeader("Accept", "application/json");
@@ -83,6 +94,33 @@ public class UtilisateurService {
        System.out.println(response);
        System.out.println(response.getStatusLine().getStatusCode());
    //     assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
+        client.close();
+    }
+
+    public void sendPutRequest(UtilisateurDTO utilisateur, String url) throws ClientProtocolException, IOException {
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPut httpPut = new HttpPut(url);
+
+        JSONObject json = new JSONObject();
+        json.put("id", utilisateur.getId());
+        json.put("username", utilisateur.getUsername());
+        json.put("prenom", utilisateur.getPrenom());
+        json.put("age", utilisateur.getAge());
+        json.put("mail", utilisateur.getMail());
+        json.put("password", utilisateur.getPassword());
+        json.put("statut", utilisateur.getStatut());
+        json.toString();
+        System.out.println(json);
+        StringEntity entity = new StringEntity(json.toString());
+        System.out.println(entity);
+        httpPut.setEntity(entity);
+        httpPut.setHeader("Accept", "application/json");
+        httpPut.setHeader("Content-type", "application/json");
+
+        CloseableHttpResponse response = client.execute(httpPut);
+        System.out.println(response);
+        System.out.println(response.getStatusLine().getStatusCode());
+        //     assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
         client.close();
     }
 

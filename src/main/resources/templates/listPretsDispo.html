@@ -3,8 +3,6 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout">-->
 <head>
     <title>Homepage</title>
     <meta charset="utf-8"/>
@@ -18,34 +16,44 @@
 <body>
 <div th:replace="fragments/layout :: navbar"></div>
 <div class="container mt-5">
-    <h3 class="text-center mb-3"> Liste des exemplaires</h3>
+    <h3 class="text-center mb-3"> Liste des prets dispos</h3>
     <div class="table-responsive-lg">
         <table class="table table-bordered table-striped text-center">
             <thead>
-            <th>Collection</th>
-            <th>Editeur</th>
-            <th>Description</th>
-            <th>ISBN</th>
+            <th>Utilisateur</th>
+            <th>Exemplaire</th>
+            <th>Emprunte</th>
+            <th>Retourne</th>
+            <th>Prolonge</th>
             <th>Detail</th>
-            <th>Editer</th>
             </thead>
             <tbody>
-            <tr th:each="exemplaire, rowStat: ${exemplaires}"
+            <tr th:each="pret, rowStat: ${pretsdispo}"
                 th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
-                <!--                        <td th:text="${utilisateur.id}"/>-->
-                <td th:text="${exemplaire.collection}"/>
-                <td th:text="${exemplaire.editeur}"/>
-                <td th:text="${exemplaire.description}"/>
-                <td th:text="${exemplaire.isbn}"/>
-                <td><a th:href="@{/exemplaire/details/{id}(id=${exemplaire.id})}">Détails</a></td>
-                <td><a th:href="@{/exemplaire/edition/{id}(id=${exemplaire.id})}">Editer</a></td>
+                <td th:text="${pret.utilisateur}"/>
+                <td th:text="${pret.exemplaire.id}"/>
+                <td>
+                        <form method="post"
+                              th:action="@{/pret/savePretEmprunte/{id}(id=${pret.id})}" th:object="${pret}">
+                            <th:block th:if="${pret.disponible == true}">
+                                <button class="btn btn-primary" type="submit">Emprunter</button>
+                            </th:block>
+                        </form></td>
+                <td>
+                <div th:if="${pret.retourne == true}">
+                    Retourne
+                </div></td>
+                <td>
+                <div th:if="${pret.prolonge == true}">
+                    Prolonge
+                </div></td>
+                <td><a th:href="@{/api/pret/details?id={id}(id=${pret.id})}">Détails</a></td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="row">
-<!--        <a class="btn btn-primary" role="button" th:href="@{/api/utilisateur/add}">Ajouter</a>-->
-        <a class="btn btn-primary" role="button" th:href="@{/exemplaire/list}">Retour</a>
+       <a class="btn btn-primary" role="button" th:href="@{/admin/home}">Retour</a>
     </div>
 </div>
 </div>
