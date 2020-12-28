@@ -111,10 +111,10 @@ public class ExemplaireService {
         json.put("description", exemplaire.getDescription());
         json.put("isbn", exemplaire.getIsbn());
         json.put("nombre", exemplaire.getNombre());
-       ObjectMapper objectMapper = new ObjectMapper();
+/*       ObjectMapper objectMapper = new ObjectMapper();
         String livreAsString = objectMapper.writeValueAsString(exemplaire.getLivre());
         System.out.println("livreAsString:" + new JSONObject(livreAsString));
-        json.put("livre", new JSONObject(livreAsString));
+        json.put("livre", new JSONObject(livreAsString));*/
         System.out.println(json);
         StringEntity entity = new StringEntity(json.toString());
         httpPut.setEntity(entity);
