@@ -41,6 +41,10 @@
                         </div>
                     </li>
 
+                    <li sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/logout}">Logout</a>
+                    </li>
+
                 </ul>
             </div>
         </nav>

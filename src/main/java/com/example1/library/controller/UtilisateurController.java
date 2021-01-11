@@ -131,5 +131,26 @@ public class UtilisateurController {
         return utilisateur;
     }
 
+    @RequestMapping(value = "/connect", method = RequestMethod.GET)
+    public String connect(Model model) {
+        model.addAttribute("utilisateur", new UtilisateurDTO());
+        return "connexion";
+
+    }
+
+    @RequestMapping(value = "/connect", method = RequestMethod.POST)
+    public String connect(@ModelAttribute UtilisateurDTO utilisateur, Model model, BindingResult result) throws IOException,InterruptedException
+    {
+        if (result.hasErrors()) {
+            return "connexion";
+        } else {
+            System.out.println("login utilisateur: " + utilisateur.getUsername());
+            System.out.println("mdp utilisateur:"  + utilisateur.getPassword());
+            this.utilisateurService.connectUser(utilisateur);
+            model.addAttribute("utilisateurs", this.utilisateurService.getAllUsers());
+            return "redirect:/utilisateur/list";
+        }
+    }
+
 
 }

@@ -1,4 +1,5 @@
 package com.example1.library.service;
+import com.example1.library.model.dto.LivreDTO;
 import com.example1.library.model.dto.UtilisateurDTO;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
@@ -68,6 +69,13 @@ public class UtilisateurService {
         System.out.println(urlUpdate);
         System.out.println(utilisateur1);
         this.sendPutRequest(utilisateur1,urlUpdate);
+    }
+
+    public void connectUser(UtilisateurDTO utilisateur1) throws IOException,InterruptedException
+    {
+        String urlConnecte = "http://localhost:8090/api/auth/login";
+        System.out.println(urlConnecte);
+        this.sendPostRequest(utilisateur1,urlConnecte);
     }
 
     public void sendPostRequest(UtilisateurDTO utilisateur, String url) throws ClientProtocolException, IOException {

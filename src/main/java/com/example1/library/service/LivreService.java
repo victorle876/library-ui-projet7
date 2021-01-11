@@ -79,11 +79,12 @@ public class LivreService {
         json.toString();
         StringEntity entity = new StringEntity(json.toString());
         httpPost.setEntity(entity);
+        System.out.println("livre: " + entity);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-type", "application/json");
 
         CloseableHttpResponse response = client.execute(httpPost);
-        assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
+     //   assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
         client.close();
     }
 

@@ -33,8 +33,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions().sameOrigin()
                 .and()
                 .authorizeRequests()
-                .anyRequest().permitAll()
-        ; //
+      //          .anyRequest().permitAll()
+                .antMatchers("/exemplaire/**","/pret/**").permitAll()
+                .antMatchers("/livre/**", "/utilisateur/**").permitAll()
+                .anyRequest().authenticated()
+/*               .and()
+                .formLogin()
+                .loginPage("/utilisateur/connect")
+                .defaultSuccessUrl("/")
+                .failureUrl("/utilisateur/connect?error")
+               .permitAll()
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/utilisateur/connect")
+                .deleteCookies("my-remember-me-cookie")
+                .permitAll()
+                .and()
+                .rememberMe()
+                //.key("my-secure-key")
+                .rememberMeCookieName("my-remember-me-cookie")
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(24 * 60 * 60)
+                .and()
+                .exceptionHandling()*/
+        ;
     }
 
     PersistentTokenRepository persistentTokenRepository(){
@@ -42,5 +65,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         tokenRepositoryImpl.setDataSource(dataSource);
         return tokenRepositoryImpl;
     }
+
+/*    @Bean(name = "authenticationManager")
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }*/
 
 }
