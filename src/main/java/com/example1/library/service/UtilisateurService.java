@@ -71,15 +71,15 @@ public class UtilisateurService {
         this.sendPutRequest(utilisateur1,urlUpdate);
     }
 
-    public void connectUser(UtilisateurDTO utilisateur1) throws IOException,InterruptedException
+ /*   public void connectUser(UtilisateurDTO utilisateur1) throws IOException,InterruptedException
     {
         String urlConnecte = "http://localhost:8090/api/auth/login";
-        System.out.println(urlConnecte);
-        this.sendPostRequest(utilisateur1,urlConnecte);
-    }
+        System.out.println("urlConnecte: " +urlConnecte);
+        this.sendCheckRequest(utilisateur1,urlConnecte);
+    }*/
 
     public void sendPostRequest(UtilisateurDTO utilisateur, String url) throws ClientProtocolException, IOException {
-       CloseableHttpClient client = HttpClients.createDefault();
+        CloseableHttpClient client = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
 
         JSONObject json = new JSONObject();
@@ -99,11 +99,14 @@ public class UtilisateurService {
         httpPost.setHeader("Content-type", "application/json");
 
        CloseableHttpResponse response = client.execute(httpPost);
-       System.out.println(response);
+        System.out.println("response:" + response.getStatusLine().getStatusCode());
+       System.out.println("send post response:" + response);
        System.out.println(response.getStatusLine().getStatusCode());
    //     assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
         client.close();
     }
+
+
 
     public void sendPutRequest(UtilisateurDTO utilisateur, String url) throws ClientProtocolException, IOException {
         CloseableHttpClient client = HttpClients.createDefault();

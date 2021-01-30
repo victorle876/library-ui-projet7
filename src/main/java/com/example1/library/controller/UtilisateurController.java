@@ -3,12 +3,20 @@ package com.example1.library.controller;
 import com.example1.library.model.dto.UtilisateurDTO;
 import com.example1.library.model.entity.Utilisateur;
 import com.example1.library.service.UtilisateurService;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 // import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,11 +33,10 @@ public class UtilisateurController {
     @Autowired
     private UtilisateurService utilisateurService;
 
-
     private static final Logger logger = LogManager.getLogger(UtilisateurController.class);
 
     @GetMapping("/list")
-    public String getAllUtilisateurs(Model model) throws IOException,InterruptedException {
+    public String getAllUtilisateurs(Model model) throws IOException, InterruptedException {
         List<UtilisateurDTO> ListUtilisateursDto = this.utilisateurService.getAllUsers();
         model.addAttribute("utilisateurs", ListUtilisateursDto);
         return "listUtilisateurs";
@@ -38,8 +45,7 @@ public class UtilisateurController {
     /**
      * Méthode permet d'ajouter l'utilisateur en get
      *
-     * @param model
-     * * @return la page "addUtilisateur"
+     * @param model * @return la page "addUtilisateur"
      */
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String ajouterUtilisateur(Model model) {
@@ -52,12 +58,10 @@ public class UtilisateurController {
      * Méthode permet d'ajouter l'utilisateur' en post
      *
      * @param model
-     * @param result
-     * * @return la page "listUtilisateur"
+     * @param result * @return la page "listUtilisateur"
      */
     @RequestMapping(value = "/saveUtilisateur", method = RequestMethod.POST)
-    public String save(@ModelAttribute UtilisateurDTO utilisateur, Model model, BindingResult result) throws IOException,InterruptedException
-    {
+    public String save(@ModelAttribute UtilisateurDTO utilisateur, Model model, BindingResult result) throws IOException, InterruptedException {
         if (result.hasErrors()) {
             return "addUser";
         } else {
@@ -69,8 +73,7 @@ public class UtilisateurController {
     }
 
     @GetMapping(value = "/detailsUser")
-    public String detail(@RequestParam(value = "id") Long id, Model model) throws IOException,InterruptedException
-    {
+    public String detail(@RequestParam(value = "id") Long id, Model model) throws IOException, InterruptedException {
         UtilisateurDTO utilisateur = utilisateurService.getUserById(id);
         if (utilisateur == null) {
             logger.info("l'utilisateur n'existe pas");
@@ -88,8 +91,7 @@ public class UtilisateurController {
      * @return la page "editionUser"
      */
     @RequestMapping(value = "/editionUser", method = RequestMethod.GET)
-    public String editionUser(@RequestParam(value = "id") Long id, Model model) throws IOException,InterruptedException
-    {
+    public String editionUser(@RequestParam(value = "id") Long id, Model model) throws IOException, InterruptedException {
         model.addAttribute("utilisateur", this.utilisateurService.getUserById(id));
         System.out.println(this.utilisateurService.getUserById(id));
         return "editionUser";
@@ -104,9 +106,8 @@ public class UtilisateurController {
      * @param utilisateur
      * @return la page "editionUser"
      */
-    @RequestMapping(value = "/editionUser", method=RequestMethod.POST)
-    public String editionUser(@RequestParam(value = "id") long id, @ModelAttribute UtilisateurDTO utilisateur, BindingResult errors, Model model) throws IOException,InterruptedException
-    {
+    @RequestMapping(value = "/editionUser", method = RequestMethod.POST)
+    public String editionUser(@RequestParam(value = "id") long id, @ModelAttribute UtilisateurDTO utilisateur, BindingResult errors, Model model) throws IOException, InterruptedException {
         if (errors.hasErrors()) {
             return "editionUser";
         } else {
@@ -118,7 +119,7 @@ public class UtilisateurController {
             utilisateurId.setMail(utilisateur.getMail());
             utilisateurId.setAge(utilisateur.getAge());
             utilisateurId.setPassword(utilisateur.getPassword());
-            this.utilisateurService.updateUser(utilisateurId,utilisateur.getId());
+            this.utilisateurService.updateUser(utilisateurId, utilisateur.getId());
             model.addAttribute("utilisateurs", this.utilisateurService.getAllUsers());
             return "redirect:/utilisateur/list";
         }
@@ -131,26 +132,12 @@ public class UtilisateurController {
         return utilisateur;
     }
 
-    @RequestMapping(value = "/connect", method = RequestMethod.GET)
-    public String connect(Model model) {
-        model.addAttribute("utilisateur", new UtilisateurDTO());
-        return "connexion";
-
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String home(Model model) throws IOException, InterruptedException {
+        model.addAttribute("utilisateurs", this.utilisateurService.getAllUsers());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        logger.info(authentication);
+        return "home";
     }
-
-    @RequestMapping(value = "/connect", method = RequestMethod.POST)
-    public String connect(@ModelAttribute UtilisateurDTO utilisateur, Model model, BindingResult result) throws IOException,InterruptedException
-    {
-        if (result.hasErrors()) {
-            return "connexion";
-        } else {
-            System.out.println("login utilisateur: " + utilisateur.getUsername());
-            System.out.println("mdp utilisateur:"  + utilisateur.getPassword());
-            this.utilisateurService.connectUser(utilisateur);
-            model.addAttribute("utilisateurs", this.utilisateurService.getAllUsers());
-            return "redirect:/utilisateur/list";
-        }
-    }
-
 
 }

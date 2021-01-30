@@ -1,5 +1,6 @@
 package com.example1.library.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -22,6 +23,7 @@ public class Pret {
 
     @ManyToOne
     @JoinColumn(name="utilisateur_id", referencedColumnName = "id")
+    @JsonBackReference
     private Utilisateur utilisateur;
 
     private Boolean emprunte;

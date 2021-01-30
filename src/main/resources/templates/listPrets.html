@@ -32,7 +32,7 @@
             <tbody>
             <tr th:each="pret, rowStat: ${prets}"
                 th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
-                <td th:text="${pret.utilisateur}"/>
+                <td th:text="${pret.utilisateur.username}"/>
                <td th:text="${pret.exemplaire.id}"/>
                 <td>
                 <div th:if="${pret.emprunte == true}">

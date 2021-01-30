@@ -1,5 +1,6 @@
 package com.example1.library.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -25,6 +26,7 @@ public class PretDTO {
     private Date updatedAt;
 
   //  @JsonIgnore
+    @JsonBackReference
     private UtilisateurDTO utilisateur;
 
     private ExemplaireDTO exemplaire;

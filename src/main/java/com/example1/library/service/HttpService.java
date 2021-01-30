@@ -22,8 +22,9 @@ public class HttpService {
         ObjectMapper objectMapper = new ObjectMapper();
         System.out.println(response);
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        System.out.println(response.body());
-        System.out.println(responseType);
+        System.out.println("response.body: " + response.body());
+        System.out.println("response.type: "+ responseType);
+        System.out.println("response.statusCode: "+response.statusCode());
         return objectMapper.readValue(response.body(), responseType);
     }
 
