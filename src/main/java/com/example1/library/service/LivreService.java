@@ -36,14 +36,14 @@ public class LivreService {
      */
     public List<LivreDTO> getAllLivres() throws IOException,InterruptedException {
         List<LivreDTO> livres = httpService.sendGetListRequest("http://localhost:8090/api/livre/list", LivreDTO.class);
-  //      System.out.println(livres);
+  //      logger.info(livres);
         return livres;
 
     }
 
     public List<LivreDTO> findLivreByAuteurOrTitre(String recherche,String recherche1) throws IOException,InterruptedException {
         List<LivreDTO> livres = httpService.sendGetListRequest("http://localhost:8090/api/livre/searchLivreByAuteurOrTitre", LivreDTO.class);
-        //      System.out.println(livres);
+        //      logger.info(livres);
         return livres;
 
     }
@@ -51,7 +51,7 @@ public class LivreService {
     public LivreDTO getLivreById(Long id) throws IOException,InterruptedException
     {
         LivreDTO livreId= httpService.sendGetRequest("http://localhost:8090/api/livre/detail/" + id, LivreDTO.class);
-        System.out.println(livreId);
+        logger.info("livreId: " + livreId);
         return livreId;
     }
 
@@ -79,7 +79,7 @@ public class LivreService {
         json.toString();
         StringEntity entity = new StringEntity(json.toString());
         httpPost.setEntity(entity);
-        System.out.println("livre: " + entity);
+        logger.info("livre: " + entity);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-type", "application/json");
 
@@ -98,16 +98,16 @@ public class LivreService {
         json.put("auteur", livre.getAuteur());
         json.put("categorie", livre.getCategorie());
         json.toString();
-        System.out.println("json livre:" + json);
+        logger.info("json livre:" + json);
         StringEntity entity = new StringEntity(json.toString());
-        System.out.println(entity);
+        logger.info(entity);
         httpPut.setEntity(entity);
         httpPut.setHeader("Accept", "application/json");
         httpPut.setHeader("Content-type", "application/json");
 
         CloseableHttpResponse response = client.execute(httpPut);
-        System.out.println("response: " +response);
-        System.out.println("status code: " + response.getStatusLine().getStatusCode());
+        logger.info("response put request livre: " +response);
+        logger.info("status code: " + response.getStatusLine().getStatusCode());
         assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
         client.close();
     }

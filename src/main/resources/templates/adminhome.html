@@ -14,7 +14,7 @@
 <body>
 <div th:replace="fragments/layout :: navbar">
     <p>Welcome Administrator(<span sec:authentication="principal.username">Admin</span>)</p>
-    <p sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></p> //ajout
+    <p sec:authorize="isAuthenticated()"><a th:href="@{/auth/logout}">Logout</a></p> //ajout
 </div>
 </body>
 </html>

@@ -37,7 +37,7 @@ public class UtilisateurService {
      */
     public List<UtilisateurDTO> getAllUsers() throws IOException,InterruptedException {
         List<UtilisateurDTO> utilisateurs = httpService.sendGetListRequest("http://localhost:8090/api/utilisateur/list", UtilisateurDTO.class);
-        System.out.println(utilisateurs);
+        logger.info(utilisateurs);
         return utilisateurs;
 
     }
@@ -52,31 +52,24 @@ public class UtilisateurService {
     public UtilisateurDTO getUserById(Long id) throws IOException,InterruptedException
     {
         UtilisateurDTO utilisateurId= httpService.sendGetRequest("http://localhost:8090/api/utilisateur/detail/" + id, UtilisateurDTO.class);
-        System.out.println(utilisateurId);
+        logger.info("utilisateurId: " +utilisateurId);
         return utilisateurId;
     }
 
     public void saveUser(UtilisateurDTO utilisateur1) throws IOException,InterruptedException
     {
         String urlCree = "http://localhost:8090/api/utilisateur/add";
-        System.out.println(urlCree);
+        logger.info(urlCree);
         this.sendPostRequest(utilisateur1,urlCree);
     }
 
     public void updateUser(UtilisateurDTO utilisateur1, Long id) throws IOException,InterruptedException
     {
         String urlUpdate = "http://localhost:8090/api/utilisateur/update/" +id;
-        System.out.println(urlUpdate);
-        System.out.println(utilisateur1);
+        logger.info(urlUpdate);
+        logger.info(utilisateur1);
         this.sendPutRequest(utilisateur1,urlUpdate);
     }
-
- /*   public void connectUser(UtilisateurDTO utilisateur1) throws IOException,InterruptedException
-    {
-        String urlConnecte = "http://localhost:8090/api/auth/login";
-        System.out.println("urlConnecte: " +urlConnecte);
-        this.sendCheckRequest(utilisateur1,urlConnecte);
-    }*/
 
     public void sendPostRequest(UtilisateurDTO utilisateur, String url) throws ClientProtocolException, IOException {
         CloseableHttpClient client = HttpClients.createDefault();
@@ -91,17 +84,17 @@ public class UtilisateurService {
         json.put("password", utilisateur.getPassword());
         json.put("statut", utilisateur.getStatut());
         json.toString();
-        System.out.println(json);
+        logger.info(json);
        StringEntity entity = new StringEntity(json.toString());
-        System.out.println(entity);
+        logger.info(entity);
         httpPost.setEntity(entity);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-type", "application/json");
 
        CloseableHttpResponse response = client.execute(httpPost);
-        System.out.println("response:" + response.getStatusLine().getStatusCode());
-       System.out.println("send post response:" + response);
-       System.out.println(response.getStatusLine().getStatusCode());
+        logger.info("response:" + response.getStatusLine().getStatusCode());
+       logger.info("send post response:" + response);
+       logger.info(response.getStatusLine().getStatusCode());
    //     assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
         client.close();
     }
@@ -121,16 +114,16 @@ public class UtilisateurService {
         json.put("password", utilisateur.getPassword());
         json.put("statut", utilisateur.getStatut());
         json.toString();
-        System.out.println(json);
+        logger.info(json);
         StringEntity entity = new StringEntity(json.toString());
-        System.out.println(entity);
+        logger.info(entity);
         httpPut.setEntity(entity);
         httpPut.setHeader("Accept", "application/json");
         httpPut.setHeader("Content-type", "application/json");
 
         CloseableHttpResponse response = client.execute(httpPut);
-        System.out.println(response);
-        System.out.println(response.getStatusLine().getStatusCode());
+        logger.info(response);
+        logger.info(response.getStatusLine().getStatusCode());
         //     assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
         client.close();
     }

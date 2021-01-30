@@ -1,7 +1,10 @@
 package com.example1.library.service;
 
+import com.example1.library.controller.UtilisateurController;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URI;
@@ -11,7 +14,10 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 public class HttpService {
+
     private final HttpClient httpClient= HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
+
+    private static final Logger logger = LogManager.getLogger(HttpService.class);
 
     public HttpService() {}
 
@@ -20,11 +26,11 @@ public class HttpService {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(response);
+        logger.info(response);
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        System.out.println("response.body: " + response.body());
-        System.out.println("response.type: "+ responseType);
-        System.out.println("response.statusCode: "+response.statusCode());
+        logger.info("response.body: " + response.body());
+        logger.info("response.type: "+ responseType);
+        logger.info("response.statusCode: "+response.statusCode());
         return objectMapper.readValue(response.body(), responseType);
     }
 
@@ -33,7 +39,7 @@ public class HttpService {
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).header("Accept", "application/json").build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response);
+        logger.info("response send getResponseList: " + response);
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(response.body(), objectMapper.getTypeFactory().constructCollectionType(List.class, responseType));
     }

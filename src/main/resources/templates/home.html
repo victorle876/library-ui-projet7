@@ -17,10 +17,10 @@
 <div class="container-xl">
     <div class="card rounded-0 shadow">
         <div class="card-body">
-            <p sec:authorize="isAnonymous()"><a th:href="@{/utilisateur/connect}">Login</a></p>
+            <p sec:authorize="isAnonymous()"><a th:href="@{/auth/connect}">Login</a></p>
             <p sec:authorize="isAuthenticated()">Welcome(<span sec:authentication="principal.username">Admin</span>)</p>
             <p><a th:href="@{/admin/home}">Admin Home</a></p>
-            <p sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></p>
+            <p sec:authorize="isAuthenticated()"><a th:href="@{/auth/logout}">Logout</a></p>
         </div>
     </div>
 </div>

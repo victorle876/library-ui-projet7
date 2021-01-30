@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.persistence.OneToMany;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class LivreDTO {
     @JsonProperty("updatedAt")
     private Date updatedAt;
 
+    @OneToMany(mappedBy="livre")
     @JsonManagedReference
     @ToString.Exclude
     private List<ExemplaireDTO> exemplaires;

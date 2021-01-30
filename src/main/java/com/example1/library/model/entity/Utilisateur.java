@@ -1,5 +1,6 @@
 package com.example1.library.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -41,6 +42,7 @@ public class Utilisateur {
     private Date updatedAt;
 
     @OneToMany(mappedBy="utilisateur")
+    @JsonManagedReference
     private List<Pret> prets;
 
     private String token;
@@ -56,12 +58,14 @@ public class Utilisateur {
         this.updatedAt = new Date();
     }
 
+/*
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "user_role",
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
     private Set<Role> roles = new HashSet<>();;
+*/
 
 
 }

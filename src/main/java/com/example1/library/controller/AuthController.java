@@ -7,6 +7,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,8 @@ import java.io.IOException;
 @RequestMapping("/auth")
 public class AuthController {
 
+    private static final Logger logger = LogManager.getLogger(HomeController.class);
+
     @Autowired
     private UtilisateurService utilisateurService;
 
@@ -32,14 +36,13 @@ public class AuthController {
 
     }
 
-
     @RequestMapping(value = "/connect", method = RequestMethod.POST)
     public String connect(@ModelAttribute UtilisateurDTO utilisateur, Model model, BindingResult result) throws IOException, InterruptedException {
         if (result.hasErrors()) {
             return "connexion";
         } else {
-            System.out.println("login utilisateur: " + utilisateur.getMail());
-            System.out.println("mdp utilisateur:" + utilisateur.getPassword());
+            logger.info("login utilisateur: " + utilisateur.getMail());
+            logger.info("mdp utilisateur:" + utilisateur.getPassword());
             String urlConnecte = "http://localhost:8090/api/auth/login";
             CloseableHttpClient client = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(urlConnecte);
@@ -49,18 +52,19 @@ public class AuthController {
             json.toString();
 //            this.utilisateurService.connectUser(utilisateur);
             StringEntity entity = new StringEntity(json.toString());
-            System.out.println("json: " + json);
+            logger.info("json: " + json);
             httpPost.setEntity(entity);
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
             CloseableHttpResponse response = client.execute(httpPost);
             client.close();
-            System.out.println("httpPost: " + httpPost);
+            logger.info("httpPost: " + httpPost);
             int statusCode = response.getStatusLine().getStatusCode();
-            System.out.println("statusCode: " + statusCode);
+            logger.info("statusCode: " + statusCode);
             if (statusCode < 403) {
                 model.addAttribute("utilisateurs", this.utilisateurService.getAllUsers());
-                return "redirect:/utilisateur/list";
+              //  return "redirect:/utilisateur/list";
+                return "adminhome";
             }
             return "connexion";
         }

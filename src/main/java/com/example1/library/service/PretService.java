@@ -35,28 +35,28 @@ public class PretService {
      */
     public List<PretDTO> getAllPrets() throws IOException,InterruptedException {
         List<PretDTO> prets = httpService.sendGetListRequest("http://localhost:8090/api/pret/list", PretDTO.class);
-  //      System.out.println(prets);
+  //      logger.info(prets);
         return prets;
 
     }
 
     public List<PretDTO> getAllPretsDispo() throws IOException,InterruptedException {
         List<PretDTO> pretsDispo = httpService.sendGetListRequest("http://localhost:8090/api/pret/listPretDispo", PretDTO.class);
-        //      System.out.println(prets);
+        //      logger.info(prets);
         return pretsDispo;
 
     }
 
     public List<PretDTO> getAllPretsRetourneOrProlonge() throws IOException,InterruptedException {
         List<PretDTO> pretsRetourneOrProlonge = httpService.sendGetListRequest("http://localhost:8090/api/pret/listPretRetourneOrProlonge", PretDTO.class);
-        //      System.out.println(prets);
+        //      logger.info(prets);
         return pretsRetourneOrProlonge;
     }
 
     public PretDTO getPretById(Long id) throws IOException,InterruptedException
     {
         PretDTO pretId= httpService.sendGetRequest("http://localhost:8090/api/pret/detail/" + id, PretDTO.class);
-        System.out.println(pretId);
+        logger.info(pretId);
         return pretId;
     }
 
@@ -105,7 +105,7 @@ public class PretService {
         httpPost.setEntity(entity);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-type", "application/json");
-        System.out.println(json);
+        logger.info(json);
         CloseableHttpResponse response = client.execute(httpPost);
          assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
         client.close();
@@ -122,13 +122,13 @@ public class PretService {
         json.put("retourne", pret.getRetourne());
         json.put("disponible", pret.getDisponible());
         json.put("nombreprolonge", pret.getNombreProlonge());
-        System.out.println("lecture:" + pret.getExemplaire());
-        System.out.println("lecture2:" + pret.getExemplaire().getCreatedAt());
+        logger.info("lecture:" + pret.getExemplaire());
+        logger.info("lecture2:" + pret.getExemplaire().getCreatedAt());
         ObjectMapper objectMapper = new ObjectMapper();
         String exemplaireAsString = objectMapper.writeValueAsString(pret.getExemplaire());
-        System.out.println("exemplaireAsString:" + new JSONObject(exemplaireAsString));
+        logger.info("exemplaireAsString:" + new JSONObject(exemplaireAsString));
         json.put("exemplaire", new JSONObject(exemplaireAsString));
-        System.out.println("json: " + json);
+        logger.info("json: " + json);
         StringEntity entity = new StringEntity(json.toString());
         httpPut.setEntity(entity);
         httpPut.setHeader("Accept", "application/json");

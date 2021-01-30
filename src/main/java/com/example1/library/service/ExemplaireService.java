@@ -35,7 +35,7 @@ public class ExemplaireService {
      */
     public List<ExemplaireDTO> getAllExemplaires() throws IOException,InterruptedException {
         List<ExemplaireDTO> exemplaires = httpService.sendGetListRequest("http://localhost:8090/api/exemplaire/list", ExemplaireDTO.class);
-        System.out.println(exemplaires);
+        logger.info("liste exemplaires: "+exemplaires);
         return exemplaires;
 
     }
@@ -43,7 +43,7 @@ public class ExemplaireService {
     public List<ExemplaireDTO> findExemplairesByLivre(Long id) throws IOException,InterruptedException {
         String url1 = "http://localhost:8090/api/livre/listExemplaireByLivre/"+ id;
         List<ExemplaireDTO> exemplaires = httpService.sendGetListRequest(url1, ExemplaireDTO.class);
-        System.out.println(exemplaires);
+        logger.info("liste exemplaires par livre: " +exemplaires);
         return exemplaires;
 
     }
@@ -57,7 +57,7 @@ public class ExemplaireService {
     public ExemplaireDTO getExemplaireById(Long id) throws IOException,InterruptedException
     {
         ExemplaireDTO exemplaireId= httpService.sendGetRequest("http://localhost:8090/api/exemplaire/detail/" + id, ExemplaireDTO.class);
-        System.out.println(exemplaireId);
+        logger.info(exemplaireId);
         return exemplaireId;
     }
 
@@ -86,16 +86,16 @@ public class ExemplaireService {
         json.put("createdAt", exemplaire.getCreatedAt());
          ObjectMapper objectMapper = new ObjectMapper();
         String livreAsString = objectMapper.writeValueAsString(exemplaire.getLivre());
-        System.out.println("livreAsString:" + new JSONObject(livreAsString));
+        logger.info("livreAsString:" + new JSONObject(livreAsString));
         json.put("livre", new JSONObject(livreAsString));
-        System.out.println("json livre: " + json);
+        logger.info("json livre: " + json);
         StringEntity entity = new StringEntity(json.toString());
         httpPost.setEntity(entity);
         httpPost.setHeader("Accept", "application/json");
         httpPost.setHeader("Content-type", "application/json");
 
         CloseableHttpResponse response = client.execute(httpPost);
-        System.out.println(response);
+        logger.info(response);
    //     assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
         client.close();
     }
@@ -113,15 +113,15 @@ public class ExemplaireService {
         json.put("nombre", exemplaire.getNombre());
 /*       ObjectMapper objectMapper = new ObjectMapper();
         String livreAsString = objectMapper.writeValueAsString(exemplaire.getLivre());
-        System.out.println("livreAsString:" + new JSONObject(livreAsString));
+        logger.info("livreAsString:" + new JSONObject(livreAsString));
         json.put("livre", new JSONObject(livreAsString));*/
-        System.out.println(json);
+        logger.info("json livre en put: " +json);
         StringEntity entity = new StringEntity(json.toString());
         httpPut.setEntity(entity);
         httpPut.setHeader("Accept", "application/json");
         httpPut.setHeader("Content-type", "application/json");
         CloseableHttpResponse response = client.execute(httpPut);
-        System.out.println(response);
+        logger.info(" responsejson livre en put: " +response);
         //     assertThat(response.getStatusLine().getStatusCode(), equalTo(200));
         client.close();
     }

@@ -59,13 +59,13 @@ public class PretController {
     @RequestMapping(value = "/savePretEmprunte/{id}", method = RequestMethod.POST)
     public String savePretEmprunte(@ModelAttribute PretDTO pretId, Model model, @PathVariable(value = "id") Long id, BindingResult result) throws IOException, InterruptedException {
         pretId = this.pretService.getPretById(id);
-        System.out.println("avant pretId: " + pretId);
+        logger.info("avant pretId: " + pretId);
         pretId.setDisponible(Boolean.FALSE);
         pretId.setEmprunte(Boolean.TRUE);
         pretId.setProlonge(Boolean.FALSE);
         pretId.setRetourne(Boolean.FALSE);
         pretId.setNombreProlonge(nombreProlonge);
-        System.out.println("apres pretId: " + pretId);
+        logger.info("apres pretId: " + pretId);
         this.pretService.savePretEmprunte(pretId, id);
         model.addAttribute("pretsemprunteorprolonge", this.pretService.getAllPretsRetourneOrProlonge());
         return "redirect:/pret/listPretEmprunteOrProlonge";
@@ -88,11 +88,11 @@ public class PretController {
         pretId.setEmprunte(Boolean.FALSE);
         pretId.setProlonge(Boolean.TRUE);
         pretId.setRetourne(Boolean.FALSE);
-        System.out.println("nombre prolonge: " + nombreProlonge);
-        System.out.println("apres pretId 2: " + pretId);
+        logger.info("nombre prolonge: " + nombreProlonge);
+        logger.info("apres pretId 2: " + pretId);
         if (nombreProlonge == 0) {
             nombreProlonge = nombreProlonge + 1;
-            System.out.println("nombre prolonge 2: " + nombreProlonge);
+            logger.info("nombre prolonge 2: " + nombreProlonge);
             pretId.setNombreProlonge(nombreProlonge);
             this.pretService.savePretProlonge(pretId, id);
         }

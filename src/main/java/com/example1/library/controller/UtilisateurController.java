@@ -49,7 +49,7 @@ public class UtilisateurController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String ajouterUtilisateur(Model model) {
-        System.out.println(new UtilisateurDTO());
+        logger.info(new UtilisateurDTO());
         model.addAttribute("utilisateur", new UtilisateurDTO());
         return "addUser";
     }
@@ -65,7 +65,7 @@ public class UtilisateurController {
         if (result.hasErrors()) {
             return "addUser";
         } else {
-            System.out.println(utilisateur.getUsername());
+            logger.info(utilisateur.getUsername());
             this.utilisateurService.saveUser(utilisateur);
             model.addAttribute("utilisateurs", this.utilisateurService.getAllUsers());
             return "redirect:/utilisateur/list";
@@ -93,7 +93,7 @@ public class UtilisateurController {
     @RequestMapping(value = "/editionUser", method = RequestMethod.GET)
     public String editionUser(@RequestParam(value = "id") Long id, Model model) throws IOException, InterruptedException {
         model.addAttribute("utilisateur", this.utilisateurService.getUserById(id));
-        System.out.println(this.utilisateurService.getUserById(id));
+        logger.info(this.utilisateurService.getUserById(id));
         return "editionUser";
 
     }
@@ -112,8 +112,8 @@ public class UtilisateurController {
             return "editionUser";
         } else {
             UtilisateurDTO utilisateurId = this.utilisateurService.getUserById(id);
-            System.out.println(utilisateurId);
-            System.out.println(utilisateur.getUsername());
+            logger.info(utilisateurId);
+            logger.info(utilisateur.getUsername());
             utilisateurId.setUsername(utilisateur.getUsername());
             utilisateurId.setPrenom(utilisateur.getPrenom());
             utilisateurId.setMail(utilisateur.getMail());
@@ -136,7 +136,7 @@ public class UtilisateurController {
     public String home(Model model) throws IOException, InterruptedException {
         model.addAttribute("utilisateurs", this.utilisateurService.getAllUsers());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        logger.info(authentication);
+        logger.info("autentication dans home: " +authentication);
         return "home";
     }
 

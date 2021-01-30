@@ -137,7 +137,6 @@ public class LivreController {
     @RequestMapping(value = "/addExemplaire/{id}", method = RequestMethod.GET)
     public String ajouterExemplaire(Model model,@PathVariable("id") Long id) throws IOException,InterruptedException {
         LivreDTO livreId = this.livreService.getLivreById(id);
-    //    model.addAttribute("id", id);
         model.addAttribute("livreId", livreId);
         model.addAttribute("exemplaire", new ExemplaireDTO());
         return "addExemplaire";
@@ -157,7 +156,7 @@ public class LivreController {
             exemplaireAjoute.setIsbn(exemplaire.getIsbn());
             exemplaireAjoute.setDescription(exemplaire.getDescription());
             exemplaireAjoute.setNombre(exemplaire.getNombre());
-            System.out.println("livreId :" +livreId );
+            logger.info("livreId :" +livreId );
             exemplaireAjoute.setLivre(livreId );
             this.exemplaireService.saveExemplaire(exemplaireAjoute,id);
             model.addAttribute("exemplaires", this.exemplaireService.getAllExemplaires());

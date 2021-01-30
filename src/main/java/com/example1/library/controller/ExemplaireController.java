@@ -32,7 +32,7 @@ public class ExemplaireController {
     @GetMapping("/list")
     public String getAllExemplaires(Model model) throws IOException,InterruptedException {
         List<ExemplaireDTO> ListExemplairesDto = this.exemplaireService.getAllExemplaires();
-        System.out.println("list exemplaires :" + ListExemplairesDto);
+        logger.info("list exemplaires :" + ListExemplairesDto);
         model.addAttribute("exemplaires", ListExemplairesDto);
         return "listExemplaires";
     }
@@ -101,8 +101,8 @@ public class ExemplaireController {
     public String ajouterPret(Model model,@PathVariable(value = "id") Long id)
             throws IOException,InterruptedException {
         ExemplaireDTO exemplaireId = this.exemplaireService.getExemplaireById(id);
-        System.out.println(id);
-        System.out.println(exemplaireId);
+        logger.info("id: " + id);
+        logger.info("id exemplaire: " +exemplaireId);
         model.addAttribute("id", id);
         model.addAttribute("exemplaire", this.exemplaireService.getExemplaireById(id));
         model.addAttribute("pret", new PretDTO());
